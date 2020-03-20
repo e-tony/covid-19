@@ -21,11 +21,12 @@ namespace Covid
         {
             var root = new RootCommand() { Name = "covid", TreatUnmatchedTokensAsErrors = true };
 
-            root.AddFromMethod(typeof(Program).GetMethod(nameof(Program.Ingest)), "Ingest the COVID-19 Open Research Dataset Challenge (CORD-19) dataset into a Mosaik server. You can download the original dataset here: https://www.kaggle.com/allen-institute-for-ai/CORD-19-research-challenge/tasks. Extract it to ");
+            root.AddFromMethod(typeof(Program).GetMethod(nameof(Program.Papers)), "Ingest the COVID-19 Open Research Dataset Challenge (CORD-19) dataset into a Mosaik server. You can download the original dataset here: https://www.kaggle.com/allen-institute-for-ai/CORD-19-research-challenge/tasks. Extract it to a folder and pass the path with the --folder argument.");
+            root.AddFromMethod(typeof(Program).GetMethod(nameof(Program.Diseases)), "Ingest the https://github.com/DiseaseOntology/HumanDiseaseOntology/ dataset. Call with --file \\path\\to\\doid.json");
             return await root.InvokeAsync(args);
         }
 
-        public static async Task Ingest(string token, string server, string folder)
+        public static async Task Papers(string token, string server, string folder)
         {
             var csvFile   = Path.Combine(folder, @"\2020-03-13\all_sources_metadata_2020-03-13.csv");
             if (!File.Exists(csvFile)) 
@@ -168,6 +169,47 @@ namespace Covid
             }
         }
 
+        public static async Task Diseases(string token, string server, string file)
+        {
+            using (var graph = await Graph.WithServer(server, token).WithConsoleLogging().ConnectAsync())
+            using (var session = graph.OpenSession().AutoCommit(batchSize: 1000))
+            {
+                await CreateGraphSchema(graph);
+
+                var ontology = JsonConvert.DeserializeObject<DiseasesOntologyJson>(await File.ReadAllTextAsync(file));
+
+                foreach (var node in ontology.Graphs.First().Nodes)
+                {
+                    if (node.Type != "CLASS") continue;
+
+                    var d = new Disease()
+                    {
+                        Id = node.Id?.ToString(),
+                        Label = node.Lbl,
+                        Synonyms = node.Meta?.Synonyms?.Select(s => s.Val)?.Distinct()?.ToArray() ?? new string[0],
+                        XRefs = node.Meta?.Xrefs?.Select(x => x.Val)?.Distinct()?.ToArray() ?? new string[0]
+                    };
+
+                    if (string.IsNullOrWhiteSpace(d.Label) ||
+                        string.IsNullOrWhiteSpace(d.Id) ||
+                        d.Label.Contains("_") ||
+                        d.Label.ToLowerInvariant().Contains("obsolete")) continue;
+
+                    if (d.Label == "disease" || d.Label == "syndrome") continue;
+
+                    var uid = session.AddOrUpdate(d);
+
+                    session.AddAlias(uid, Mosaik.Core.Language.English, alias: d.Label, ignoreCase: false);
+
+                    foreach(var s in d.Synonyms)
+                    {
+                        session.AddAlias(uid, Mosaik.Core.Language.English, alias: s, ignoreCase: false);
+                    }
+                }
+                
+            }
+        }
+
         private static async Task CreateGraphSchema(IGraph graph)
         {
             await graph.Schema.ExistsAsync(Schema.NewEdge(E.HasAffiliation), SchemaCreationMode.CreateOnly);
@@ -179,12 +221,17 @@ namespace Covid
             await graph.Schema.ExistsAsync(Schema.NewEdge(E.AuthorOf), SchemaCreationMode.CreateOnly);
             await graph.Schema.ExistsAsync(Schema.NewEdge(E.PublishedIn), SchemaCreationMode.CreateOnly);
             await graph.Schema.ExistsAsync(Schema.NewEdge(E.HasPaper), SchemaCreationMode.CreateOnly);
+            await graph.Schema.ExistsAsync(Schema.NewEdge(E.MentionsDisease), SchemaCreationMode.CreateOnly);
+            await graph.Schema.ExistsAsync(Schema.NewEdge(E.DiseaseAppearsIn), SchemaCreationMode.CreateOnly);
+            await graph.Schema.ExistsAsync(Schema.NewEdge(E.MentionsGene), SchemaCreationMode.CreateOnly);
+            await graph.Schema.ExistsAsync(Schema.NewEdge(E.GeneAppearsIn), SchemaCreationMode.CreateOnly);
 
             await graph.Schema.ExistsAsync<Paper>(SchemaCreationMode.CreateOnly);
             await graph.Schema.ExistsAsync<Author>(SchemaCreationMode.CreateOnly);
             await graph.Schema.ExistsAsync<Affiliation>(SchemaCreationMode.CreateOnly);
             await graph.Schema.ExistsAsync<Location>(SchemaCreationMode.CreateOnly);
             await graph.Schema.ExistsAsync<Journal>(SchemaCreationMode.CreateOnly);
+            await graph.Schema.ExistsAsync<Disease>(SchemaCreationMode.CreateOnly);
         }
 
         private static DateTimeOffset ParseDate(string publish_time)

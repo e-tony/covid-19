@@ -39,7 +39,7 @@ namespace Covid
             settings.Search.DefaultIgnoreTypes = new[] { "_Token", "_Abbreviation", "_Notification", "_User", "_AccessGroup", "_RestrictionGroup", "_Topic", "_TopicRule", "_TopicAnalysis" };
             settings.Search.SaveViewsOf = new [] { Schema.N.Paper, Schema.N.Author, Schema.N.Affiliation };
 
-            settings.Search.DefaultRelatedFacets = new[] { Schema.N.Author, Schema.N.Affiliation, Schema.N.Location, Schema.N.Journal, "_Topic" };
+            settings.Search.DefaultRelatedFacets = new[] { Schema.N.Author, Schema.N.Affiliation, Schema.N.Location, Schema.N.Journal, "_Topic", Schema.N.Disease };
 
             settings.Sidebar.Teams             = false;
             settings.Sidebar.MyFiles           = false;
@@ -56,7 +56,8 @@ namespace Covid
             App.Navbar.SearchBox.Filters.AddRange(new[]
             {
                 new SearchRequestFilter("Papers",     "search",    "#0049b2", "Search on papers",  (sr) => { sr.SetBeforeTypesFacet(Schema.N.Paper); return true; }),
-                new SearchRequestFilter("Everything", "search",    "#0049b2", "Search on papers, authors, journals & affiliations",  (sr) => { sr.SetBeforeTypesFacet(Schema.N.Affiliation, Schema.N.Author, Schema.N.Journal, Schema.N.Location, Schema.N.Paper); return true; }),
+                new SearchRequestFilter("Diseases",   "disease",  "#0049b2", "Search on diseases",  (sr) => { sr.SetBeforeTypesFacet(Schema.N.Disease); return true; }),
+                new SearchRequestFilter("Everything", "search",    "#0049b2", "Search on papers, authors, journals & affiliations",  (sr) => { sr.SetBeforeTypesFacet(Schema.N.Affiliation, Schema.N.Author, Schema.N.Journal, Schema.N.Location, Schema.N.Paper, Schema.N.Disease); return true; }),
                 new SearchRequestFilter("Bookmarks",  "bookmark",  "#0049b2", "Search on my bookmarks", (sr) => { BookmarkView.NavigateToSearch(sr); return false; }),
                 new SearchRequestFilter("History",    "history",   "#0049b2", "Search on my history",   (sr) => { TimelineView.NavigateToSearch(sr); return false; }),
             });

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "data-ingestion": {
+      "commandName": "Project",
+      "commandLineArgs": "diseases --server https://covid.curiosity.ai/api/ --token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJGb3IiOiJBUEkiLCJDcmVhdGVkQnkiOiJhZG1pbiIsIm5iZiI6MTU4NDUyMTU3MiwiZXhwIjoxODk5ODgxNjMyLCJpc3MiOiJDdXJpb3NpdHkuU2VjdXJpdHkuQmVhcmVyIiwiYXVkIjoiQ3VyaW9zaXR5In0.05-CTg-jtg7wb7NRSHoD6eyQKa6qeKz7qPAkc279k6c --file D:\\_covid\\HumanDiseaseOntology\\src\\ontology\\doid.json"
+    }
+  }
+}

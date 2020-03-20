@@ -8,15 +8,19 @@ namespace Covid.Schemas
     //Helper class to hold the names of each edge
     public static class E
     {
-        public const string HasAffiliation = nameof(HasAffiliation);
-        public const string AffiliatedTo   = nameof(AffiliatedTo);  
-        public const string LocatedIn      = nameof(LocatedIn);     
-        public const string HasInstitution = nameof(HasInstitution);
-        public const string BasedOn        = nameof(BasedOn);       
-        public const string HasAuthor      = nameof(HasAuthor);
-        public const string AuthorOf       = nameof(AuthorOf);
-        public const string PublishedIn    = nameof(PublishedIn);
-        public const string HasPaper       = nameof(HasPaper);
+        public const string HasAffiliation   = nameof(HasAffiliation);
+        public const string AffiliatedTo     = nameof(AffiliatedTo);  
+        public const string LocatedIn        = nameof(LocatedIn);     
+        public const string HasInstitution   = nameof(HasInstitution);
+        public const string BasedOn          = nameof(BasedOn);       
+        public const string HasAuthor        = nameof(HasAuthor);
+        public const string AuthorOf         = nameof(AuthorOf);
+        public const string PublishedIn      = nameof(PublishedIn);
+        public const string HasPaper         = nameof(HasPaper);
+        public const string MentionsDisease  = nameof(MentionsDisease);
+        public const string DiseaseAppearsIn = nameof(DiseaseAppearsIn);
+        public const string MentionsGene     = nameof(MentionsGene);
+        public const string GeneAppearsIn    = nameof(GeneAppearsIn);
     }
 
     [Node]
@@ -61,8 +65,8 @@ namespace Covid.Schemas
     public class Location
     {
         [Key] public string FullName { get { return $"{Settlement}, {Country}".Trim(new char[] { ' ', ',' }); } }
-        public string Settlement { get; set; }
-        public string Country { get; set; }
+        [Property] public string Settlement { get; set; }
+        [Property] public string Country { get; set; }
     }
 
 
@@ -72,5 +76,12 @@ namespace Covid.Schemas
         [Key] public string Name { get; set; }
     }
 
-
+    [Node]
+    public class Disease
+    {
+        [Key] public string Id { get; set; }
+        [Property] public string Label { get; set; }
+        [Property] public string[] XRefs { get; set; }
+        [Property] public string[] Synonyms { get; set; }
+    }
 }

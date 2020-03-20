@@ -17,6 +17,7 @@ namespace Covid
             public const string Affiliation = nameof(Affiliation);
             public const string Location = nameof(Location);
             public const string Journal = nameof(Journal);
+            public const string Disease = nameof(Disease);
         }
 
         public static class E
@@ -30,6 +31,10 @@ namespace Covid
             public const string PublishedIn = nameof(PublishedIn);
             public const string HasPaper = nameof(HasPaper);
             public const string HasAffiliation = nameof(HasAffiliation);
+            public const string MentionsDisease = nameof(MentionsDisease);
+            public const string DiseaseAppearsIn = nameof(DiseaseAppearsIn);
+            public const string MentionsGene = nameof(MentionsGene);
+            public const string GeneAppearsIn = nameof(GeneAppearsIn);
         }
     }
 }
