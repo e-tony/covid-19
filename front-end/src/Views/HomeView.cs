@@ -29,8 +29,10 @@ namespace Covid
                                 .Children(
                                      Card(Button("Browse Papers").Link().TextCenter().AlignCenter().WidthStretch().Medium()).OnClick((s, e) => { App.Navbar.SearchBox.SetFilter("Papers"); App.Navbar.SearchBox.TriggerSearch(); })
                                         .Margin(10.px()).Width(200.px()).Height(100.px()),
-                                     //Card(TextBlock("Explore Topics (beta)").TextCenter().AlignCenter().WidthStretch().Medium()).OnClick((s, e) => Router.Navigate("#/analysis"))
-                                     //   .Margin(10.px()).Width(200.px()).Height(100.px()),
+                                     Card(Button("Browse Diseases").Link().TextCenter().AlignCenter().WidthStretch().Medium()).OnClick((s, e) => { App.Navbar.SearchBox.SetFilter("Diseases"); App.Navbar.SearchBox.TriggerSearch(); })
+                                        .Margin(10.px()).Width(200.px()).Height(100.px()),
+                                     Card(TextBlock("Explore Topics (beta)").TextCenter().AlignCenter().WidthStretch().Medium()).OnClick((s, e) => Router.Navigate("#/analysis"))
+                                        .Margin(10.px()).Width(200.px()).Height(100.px()),
                                      Card(Button("Abbreviations").Link().TextCenter().AlignCenter().WidthStretch().Medium()).OnClick((s, e) => Router.Navigate("#/abbreviations"))
                                         .Margin(10.px()).Width(200.px()).Height(100.px()),
                                      Card(Button("Recently Viewed").Link().TextCenter().AlignCenter().WidthStretch().Medium()).OnClick((s, e) => Router.Navigate("#/history"))

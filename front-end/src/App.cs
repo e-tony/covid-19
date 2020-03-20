@@ -56,7 +56,7 @@ namespace Covid
             App.Navbar.SearchBox.Filters.AddRange(new[]
             {
                 new SearchRequestFilter("Papers",     "search",    "#0049b2", "Search on papers",  (sr) => { sr.SetBeforeTypesFacet(Schema.N.Paper); return true; }),
-                new SearchRequestFilter("Diseases",   "disease",  "#0049b2", "Search on diseases",  (sr) => { sr.SetBeforeTypesFacet(Schema.N.Disease); return true; }),
+                new SearchRequestFilter("Diseases",   "disease",   "#0049b2", "Search on diseases",  (sr) => { sr.SetBeforeTypesFacet(Schema.N.Disease); return true; }),
                 new SearchRequestFilter("Everything", "search",    "#0049b2", "Search on papers, authors, journals & affiliations",  (sr) => { sr.SetBeforeTypesFacet(Schema.N.Affiliation, Schema.N.Author, Schema.N.Journal, Schema.N.Location, Schema.N.Paper, Schema.N.Disease); return true; }),
                 new SearchRequestFilter("Bookmarks",  "bookmark",  "#0049b2", "Search on my bookmarks", (sr) => { BookmarkView.NavigateToSearch(sr); return false; }),
                 new SearchRequestFilter("History",    "history",   "#0049b2", "Search on my history",   (sr) => { TimelineView.NavigateToSearch(sr); return false; }),
