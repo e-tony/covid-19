@@ -16,7 +16,7 @@ namespace Covid
         public string NodeType    => "Disease";
         public string DisplayName => "Disease";
         public string LabelField  => "Label"; //You can have a fallback label field in case a field is empty by separating the field names with |
-        public string Color       => "#008c15";
+        public string Color       => "#e31b5f";
         public string Icon        => "disease";
 
         public async Task<CardContent> CompactView(Node node)
