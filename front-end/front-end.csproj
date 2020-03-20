@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net461</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="src\assets\**" />
+    <EmbeddedResource Remove="src\assets\**" />
+    <None Remove="src\assets\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Mosaik.UI" Version="0.0.6154" />
+    <PackageReference Include="Bridge" Version="17.10.1" />
+    <PackageReference Include="Bridge.Core" Version="17.10.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="assets\img\virus.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="assets\img\virus.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="$(Configuration)==Release">
+    <Exec Command="dotnet tool update mosaik.cli -g&#xD;&#xA;mosaik upload-front-end --server https://covid.curiosity.ai/api/ --token auto --path $(OutDir)\bridge" />
+  </Target>
+</Project>
