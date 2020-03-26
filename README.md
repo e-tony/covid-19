@@ -1,6 +1,6 @@
 # Covid-19 Dataset Search
 
-This repository contains the source code used to create the [Covid-19 AI-powered search](https://covid.curiosity.ai/#/home). The data in the website comes from the [COVID-19 Open Research Dataset Challenge (CORD-19) Kaggle challenge](https://www.kaggle.com/allen-institute-for-ai/CORD-19-research-challenge/tasks?taskId=561). This website uses our AI-enabled graph and search technology to enable you to explore the dataset using machine-learning-based synonyms and find similar papers using word and graph embeddings.
+This repository contains the source code used to create the [Covid-19 AI-powered search](https://covid.curiosity.ai/#/home). The data in the website comes from the [COVID-19 Open Research Dataset Challenge (CORD-19) Kaggle challenge](https://www.kaggle.com/allen-institute-for-ai/CORD-19-research-challenge/tasks?taskId=561). This website uses our AI-enabled graph and search technology to enable you to explore the dataset using machine-learning-based synonyms and find similar papers using word and graph embeddings. You can check more details on our accompanying [blog post](https://medium.com/curiosity-ai/curiositys-covid-19-research-tool-63485e29472b).
 
 
 ![](https://raw.githubusercontent.com/curiosity-ai/covid-19/master/assets/similar-papers.png)
